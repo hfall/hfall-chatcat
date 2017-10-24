@@ -1,0 +1,27 @@
+{
+  "name": "chatcat",
+  "version": "1.0.0",
+  "description": "A chatcat app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch views --watch public --watch app -e js,ejs,scss server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "6.10.0"
+  },
+  "dependencies": {
+    "connect-mongo": "1.1.0",
+    "ejs": "2.3.4",
+    "express": "4.13.3",
+    "express-session": "1.12.1",
+    "mongoose": "4.3.1",
+    "passport": "0.3.2",
+    "passport-facebook": "2.0.0",
+    "passport-twitter": "1.0.3"
+  },
+  "devDependencies": {
+    "socket.io": "^2.0.3"
+  }
+}

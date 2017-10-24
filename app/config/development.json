@@ -1,0 +1,17 @@
+{
+  "host": "http://127.0.0.1:3000",
+  "dbURI": "mongodb://hfall:mongo4doc@ds127993.mlab.com:27993/hfchatcat",
+  "sessionSecret": "catscanfly",
+  "fb": {
+    "clientID": "296230877517976",
+    "clientSecret": "d6e77c255c0f30ef57056b2ec7f27613",
+    "callbackURL": "http://localhost:3000/auth/facebook/callback",
+    "profileFields": ["id", "displayName", "photos"]
+  },
+  "tw": {
+    "consumerKey":"lRz239HjizQYH8AQRmwzUlaeD",
+    "consumerSecret": "FWRdL7u3Yfax0bfLb6Xy56dcyphvCEYQAg2M0Jca0JFFJKtmZW",
+    "callbackURL": "http://localhost:3000/auth/twitter/callback",
+    "profileFields": ["id", "displayName", "photos"]
+  }
+}
