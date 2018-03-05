@@ -1,5 +1,5 @@
 {
-  "host": "http://127.0.0.1:3000",
+  "host": "http://localhost:3000",
   "dbURI": "mongodb://hfall:mongo4doc@ds127993.mlab.com:27993/hfchatcat",
   "sessionSecret": "catscanfly",
   "fb": {

@@ -116,7 +116,7 @@ const crypto = require('crypto');
     let getRoom = findRoomById(allrooms, data.roomID);
     if(getRoom !== undefined) {
       // Get the active user's ID (ObjectID as used in session)
-      console.log(socket.request.session)
+      console.log(socket.request.sessionStore.sessions)
       let userID = socket.request.session.passport.user;
       // Check to see if this user already exists in the chatroom
       let checkUser = getRoom.users.findIndex((element, index, array) => {
