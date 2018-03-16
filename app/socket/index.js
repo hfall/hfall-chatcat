@@ -38,8 +38,18 @@ module.exports = (io, app) => {
       let usersList = h.addUserToRoom(allrooms, data, socket);
 
       // Update the list of active users as shown on the chatroom page
+      socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users))
+      socket.emit('updateUsersList', JSON.stringify(usersList.users));
+    })
 
+    socket.on('disconnect', ()=> {
+      
+      let room = h.removeUserFromRoom(allrooms, socket);
+      socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
+    })
 
+    socket.on('newMessage', (data)=> {
+      socket.to(data.roomID).emit('updateNewMessage', JSON.stringify(data))
     })
   });
 }

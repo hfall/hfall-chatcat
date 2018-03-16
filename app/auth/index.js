@@ -2,6 +2,7 @@
 
 const passport = require('passport');
 const config = require('../config');
+const logger = require('../logger');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const h = require('../helpers');
@@ -17,7 +18,7 @@ module.exports = () => {
     //  Find the user data based on the id
     h.findById(id)
       .then(user => done(null, user))
-      .catch(error => console.log("Error when deserializing the user"));
+      .catch(error => logger.log("error","Error when deserializing the user"));
 
   })
 

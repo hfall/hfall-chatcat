@@ -13,5 +13,10 @@
     "consumerSecret": "FWRdL7u3Yfax0bfLb6Xy56dcyphvCEYQAg2M0Jca0JFFJKtmZW",
     "callbackURL": "http://localhost:3000/auth/twitter/callback",
     "profileFields": ["id", "displayName", "photos"]
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "password": ""
   }
 }

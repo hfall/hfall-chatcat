@@ -10,10 +10,17 @@
 	<script>
 		'use strict';
 		$(()=> {
-			let socket = io('<%= host %>' + '/chatter');
+			let socket = io('<%= host %>' + '/chatter', {
+				transports: ['websocket']
+			});
 			let roomID = '<%= roomID %>';
 			let user = '<%= user.fullName %>';
-			let userPic = '<%= user.profilePic %>';
+			let userPic = '<%= user.profilePic %>' || '';
+
+			let activeUsers = '';
+			let usersListElement = $('.chatUsers');
+			let messagesElement = $('.chatMessages');
+			let inputElement = $('input[name=userInput]');
 
 			socket.on('connect', ()=> {
 				socket.emit('join', {
@@ -22,6 +29,50 @@
 					userPic
 				});
 			});
+
+			socket.on('updateUsersList', (data) => {
+				var parsedData = JSON.parse(data);
+				for(let user of parsedData) {
+					activeUsers += `<div class="userBlock">
+											<div class="userPic"><img src="${user.userPic ? user.userPic : null }" alt=""></div>
+											<div class="cuserName">${user.user}</div>
+										</div>`;
+				}
+
+				usersListElement.html('').html(activeUsers);
+				activeUsers = '';
+			});
+			
+			socket.on('updateNewMessage', (data) => {
+				let parsedData = JSON.parse(data);
+				UpdateNewMessage(parsedData.userPic, parsedData.message);
+			})
+			inputElement.on('keyup', function(e) {
+				e.preventDefault();
+				let message = $(this).val();
+
+				if(e.which === 13 && message !== '') {
+					socket.emit('newMessage', {
+						roomID,
+						user,
+						userPic,
+						message
+					});
+
+					UpdateNewMessage(userPic, message);
+					$(this).val('');
+				}
+			})
+
+			function UpdateNewMessage(pic, msg) {
+				let msgTemplate = `<div class="chatBlock">
+					<div class="userPic"><img src=${pic}></div>
+					<div class="chatMsg">${msg}</div>
+				</div>	`;
+
+				$(msgTemplate).hide().prependTo(messagesElement).slideDown(300);
+			}
+
 		})
 	</script>
 </head>
@@ -40,10 +91,6 @@
 			<div class="chatMessagesPanel">
 				<div class="chatMessages">
 				<!-- Loop this for chat messages -->
-				<div class="chatBlock">
-					<div class="userPic"><img src="/img/user.jpg"></div>
-					<div class="chatMsg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perferendis eius aut nesciunt necessitatibus ad nulla, qui sequi, id nam. Possimus odit aut nisi veritatis amet distinctio id officiis ipsam!</div>
-				</div>					
 				<!-- loop end -->
 				</div>
 				<div class="typePanel">
@@ -52,12 +99,6 @@
 				</div>
 			</div>
 			<div class="chatUsers">
-			<!-- Loop this for chat users -->
-				<div class="userBlock">
-					<div class="userPic"><img src="/img/user.jpg" alt="John Doe"></div>
-					<div class="cuserName">John Doe</div>
-				</div>
-			<!-- loop end -->
 			</div>
 		</div>
 	</div>

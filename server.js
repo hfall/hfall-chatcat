@@ -16,9 +16,15 @@ app.use(passport.session());
 
 app.use(express.static('public'))
 
+app.use(require('morgan')('combined', {
+  stream: {
+    write: message => {
+      chatcat.logger.log('info', message)
+    }
+  }
+}))
+
 app.use('/', chatcat.router);
-// app.use('/', require('./routes/index'));
-// app.use('/', require('./routes/index'));
 
 
 

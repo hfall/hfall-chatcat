@@ -116,7 +116,7 @@ const crypto = require('crypto');
     let getRoom = findRoomById(allrooms, data.roomID);
     if(getRoom !== undefined) {
       // Get the active user's ID (ObjectID as used in session)
-      console.log(socket.request.sessionStore.sessions)
+      // console.log(socket.request.sessionStore.sessions)
       let userID = socket.request.session.passport.user;
       // Check to see if this user already exists in the chatroom
       let checkUser = getRoom.users.findIndex((element, index, array) => {
@@ -151,6 +151,21 @@ const crypto = require('crypto');
 
   }
 
+
+  let removeUserFromRoom = (allrooms, socket) => {
+    for (let room of allrooms) {
+      let findUser = room.users.findIndex((element, index, array) => {
+        return (element.socketID === socket.id) ? true : false;
+      });
+
+      if(findUser > -1) {
+        socket.leave(room.roomID);
+        room.users.splice(findUser, 1);
+        return room;
+      }
+    }
+  }
+
 module.exports = {
   route,
   findOne,
@@ -160,5 +175,6 @@ module.exports = {
   findRoomByName,
   randomHex,
   findRoomById,
-  addUserToRoom
+  addUserToRoom,
+  removeUserFromRoom
 }
