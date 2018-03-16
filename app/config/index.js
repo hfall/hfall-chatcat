@@ -3,7 +3,7 @@
 if(process.env.NODE_ENV === 'production') {
   // PRODUCTION VARIABLES
   // For redis
-  let parsedUrl = require('url').parse(process.env.REDIS_URL);
+  let parsedUrl = require('url').parse(process.env.REDISTOGO_URL);
   let redisPassword = parsedUrl.auth.split(':')[1];
 
   module.exports = {
